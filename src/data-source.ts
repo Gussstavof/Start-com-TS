@@ -1,5 +1,5 @@
 import "reflect-metadata"
-import { DataSource } from "typeorm"
+import {createConnection, DataSource} from "typeorm"
 
 const AppDataSource = new DataSource({
     type: "postgres",
@@ -15,5 +15,10 @@ const AppDataSource = new DataSource({
     subscribers: [],
 })
 
+async function runMigrations() {
+    const connection = await createConnection();
+    await connection.runMigrations();
+    await connection.close();
+}
 export default AppDataSource
 
